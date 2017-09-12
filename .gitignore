@@ -1,0 +1,10 @@
+*.pyc
+*.so
+*.o
+*.sw*
+*~
+*.orig
+*.rej
+
+venv*
+apiconfig_override.py
