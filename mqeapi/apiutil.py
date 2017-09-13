@@ -4,8 +4,8 @@ import urllib
 
 from flask import g, request
 
+from mqetables import enrichment
 from mqe import util
-from mqe.pars import enrichment
 from mqe import reports
 from mqe import serialize
 

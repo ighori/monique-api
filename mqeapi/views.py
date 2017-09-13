@@ -3,9 +3,9 @@ import logging
 
 from flask import Blueprint, request, g
 
+from mqetables import parseany
 from mqe import reports
 from mqe.util import uuid_for_prev_dt, uuid_for_next_dt
-from mqe.pars import parseany
 from mqe import mqeconfig
 
 from mqeapi.responses import ApiResponse, bad_request
