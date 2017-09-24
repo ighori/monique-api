@@ -1,2 +1,2 @@
 flask
-monique
+monique==1.1.1
