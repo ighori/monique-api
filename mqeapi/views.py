@@ -105,6 +105,15 @@ def get_single_report_instance(name, id):
     return ApiResponse(200, result=_report_instance_desc(name, ri, True, True)).get()
 
 
+@bp_api.route('/reports/<name>', methods=['DELETE'])
+def delete_report(name):
+    report = get_report(name)
+    report.delete_multiple_instances()
+    report.delete()
+
+    return ApiResponse(200).get()
+
+
 @bp_api.route('/reports/<name>/instances/<id>', methods=['DELETE'])
 def delete_single_report_instance(name, id):
     report_instance_id = parse_id(id)

@@ -117,3 +117,17 @@ class ReportsTest(TestBase):
         r3 = self.request('GET', '/reports/bbb/instances?order=asc')
         self.assertEqual([r1.json()['result']['id']], [d['id'] for d in r3.json()['result']])
 
+    def test_delete_report(self):
+        r_post = self.test_post()
+
+        r = self.request('GET', '/reports/aaa/instances')
+        self.assertEqual(200, r.status_code)
+
+        r = self.request('DELETE', '/reports/aaa')
+        self.assertEqual(200, r.status_code)
+
+        r = self.request('GET', '/reports/aaa/instances')
+        self.assertEqual(404, r.status_code)
+
+
+

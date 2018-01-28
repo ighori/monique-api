@@ -211,9 +211,18 @@ Fetch the latest report instance:
 Fetch a single report instance having the passed `<id>`, belonging to the report `<name>`. The result is an object representing the report instance (see the previous paragraph for a description)
 
 
+### DELETE /reports/\<name\>
+
+Delete the report `<name>`, including all instances belonging to the report and dashboard tiles displaying the report.
+
+Note that the request might take a long time to complete, depending on the number of existing report instances. Increasing HTTP timeout (both on the server and client side) might be necessary for successful completion.
+
+
 ### DELETE /reports/\<name\>/instances
 
 Delete a range of report instances belonging to the report `<name>`.
+
+Note that the request might take a long time to complete, depending on the number of existing report instances. Increasing HTTP timeout (both on the server and client side) might be necessary for successful completion.
 
 **Query parameters**:
 
