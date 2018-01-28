@@ -2,11 +2,12 @@ from collections import OrderedDict
 import json
 import unittest
 
+import datetime
 import requests
 
 from mqeweb import users
 
-from mqeapi import apiconfig
+from mqeapi import apiconfig, apiutil
 
 
 from mqe.dao.daoregistry import register_dao_modules_from_config
@@ -76,3 +77,43 @@ class ReportsTest(TestBase):
 
         r = self.request('GET', '/reports?prefix=a2')
         self.assertEqual(['a2'], [d['name'] for d in r.json()['result']])
+
+    def test_delete_multi(self):
+        self.test_post()
+        r_post = self.test_post()
+
+        r = self.request('GET', '/reports/aaa/instances')
+        self.assertEqual(2, len(r.json()['result']))
+
+        r = self.request('DELETE', '/reports/aaa/instances')
+        self.assertEqual(200, r.status_code)
+
+        r = self.request('GET', '/reports/aaa/instances')
+        self.assertEqual(0, len(r.json()['result']))
+
+    def test_delete_multi_dt(self):
+        self.test_post()
+        r_post = self.test_post()
+
+        r = self.request('GET', '/reports/aaa/instances?order=asc')
+        self.assertEqual(2, len(r.json()['result']))
+
+        self.request('DELETE', '/reports/aaa/instances', params={
+            'from': (apiutil.parse_datetime(r.json()['result'][0]['created']) + \
+                        datetime.timedelta(microseconds=1)).isoformat(),
+        })
+
+        r2 = self.request('GET', '/reports/aaa/instances')
+        self.assertEqual([r.json()['result'][0]['id']], [d['id'] for d in r2.json()['result']])
+
+    def test_delete_multi_tags(self):
+        r1 = self.request('POST', '/reports/bbb?tags=p1:v1,p2:v2', data='1')
+        r2 = self.request('POST', '/reports/bbb?tags=p1:v1,p2:v3', data='2')
+
+        self.request('DELETE', '/reports/bbb/instances?tags=p2:v3')
+
+        self.request('GET', '/reports/bbb/instances')
+
+        r3 = self.request('GET', '/reports/bbb/instances?order=asc')
+        self.assertEqual([r1.json()['result']['id']], [d['id'] for d in r3.json()['result']])
+

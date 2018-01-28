@@ -211,6 +211,17 @@ Fetch the latest report instance:
 Fetch a single report instance having the passed `<id>`, belonging to the report `<name>`. The result is an object representing the report instance (see the previous paragraph for a description)
 
 
+### DELETE /reports/\<name\>/instances
+
+Delete a range of report instances belonging to the report `<name>`.
+
+**Query parameters**:
+
+* `from` - delete instances created on the specified date or later
+* `to` - delete instances created on the specified date or earlier
+* `tags` - a comma-separated list of tags that the deleted instances must have attached
+
+
 ### DELETE /reports/\<name\>/instances/\<id\>
 
 Delete a single report instance having the passed `<id>`, belonging to the report `<name>`.

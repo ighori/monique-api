@@ -112,6 +112,19 @@ def delete_single_report_instance(name, id):
     report.delete_single_instance(report_instance_id)
     return ApiResponse(200).get()
 
+
+@bp_api.route('/reports/<name>/instances', methods=['DELETE'])
+def delete_multiple_report_instances(name):
+    from_dt = parse_datetime(request.args.get('from'))
+    to_dt = parse_datetime(request.args.get('to'))
+    tags = parse_tags(request.args.get('tags'))
+
+    report = get_report(name)
+    report.delete_multiple_instances(from_dt=from_dt, to_dt=to_dt, tags=tags)
+
+    return ApiResponse(200).get()
+
+
 def format_from_headers():
     try:
         if not request.mimetype:
